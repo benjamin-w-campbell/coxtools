@@ -1,0 +1,88 @@
+#' Function to plot the predicted probability of an event using a coxph object.
+#'
+#' This function assists the user in interpreting effect sizes estimated using the coxph function.  It provides the predicted probability of an event for a fixed time period over the full range of variable's values.
+#' @param coxph_fit The output from a fitted "coxph" call.
+#' @param var A character string specifying the variable from "coxph_fit" that predicted probabilities should be plotted for.
+#' @param time This is the fixed time point that should be used to calcualte the predicted probabilities.
+#' @param seed This is the seed that should be set for replication
+#' @keywords summary interpretation plot transition probability
+#' @return A ggplot2 object summarizing the corresponding predicted probability.
+#' @examples
+#' library(survival)
+#'
+#' @export
+
+plot_predicted_probs <- function(coxph_fit = NULL, var = NULL, time = NULL, seed = NULL,
+                                 yaxis_label = 'Survival Function: Probability of Not Observing Event',
+                                 xaxis_label = 'Variable Values',
+                                 title = NULL){
+
+  if(!is.null(seed)){
+    set.seed(seed)
+  }
+
+  dat <- coxph_fit$x
+  var_mean = mean(dat[,var])
+  var_sd = sd(dat[,var])
+  # thin all values to avoid DOF problems, take first, second, and then every other after value after the second
+  values_to_take = sort(unique(dat[,var]))[c(1,seq(2, length(unique(dat[,var])), 2))]
+
+  # now create new data frame for predicted probability estimation
+  mean_or_median <- function(x){
+    l <- length(table(x))
+    if(l == 2){
+      out <- median(x, na.rm = TRUE)
+    } else {
+      out <- mean(x, na.rm = TRUE)
+    }
+    return(out)
+  }
+
+  controls <- apply(as.data.frame(dat[, (colnames(dat) != var)]), 2, mean_or_median)
+
+  pred_data <- data.frame(
+    id = c(as.character(1:length(values_to_take))),
+    var = values_to_take
+  )
+
+  colnames(pred_data)[2] <- var
+
+  # loop through and add columns to populate this prediction dataframe
+  for(i in 1:length(controls)){
+    pred_data <- cbind(pred_data, controls[i])
+    colnames(pred_data)[i+2] <- names(controls)[i]
+  }
+
+  basehaz <- riskRegression::predictCox(coxph_fit, newdata = pred_data, times = time, band = TRUE, iid=FALSE, store.iid = "minimal")
+
+  plot_df <- data.frame(
+    X = pred_data[,var],
+    Y = basehaz$survival,
+    Y_Min = basehaz$survival.lowerBand,
+    Y_Max = basehaz$survival.upperBand
+  )
+
+  library(ggplot2)
+
+
+  p = ggplot(data = plot_df, aes(x = X, y = Y)) +
+    geom_line(col = "firebrick4", size = 1.5) +
+    geom_ribbon(aes(ymin=Y_Min, ymax=Y_Max), col = "firebrick4", fill = "firebrick4", alpha = 0.25)  +
+    theme_bw()  +
+    theme(legend.position = c(0.2, 0.8),
+          axis.text=element_text(size=12),
+          axis.title=element_text(size=14,face="bold")) +
+    ylab(yaxis_label) +
+    xlab(xaxis_label)
+
+  if(!is.null(title)){
+    p <- p+ggtitle(title)
+  }
+
+  if(nrow(plot_df) == 2){
+    p <- p + scale_x_continuous(breaks=c(0,1))
+  }
+
+  return(p)
+
+}
