@@ -1,12 +1,23 @@
 Package: coxtools
+Date: 2018-4-18
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Suite of Tools for Cox Proportional Hazards Models.
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: c(person(given = c("Benjamin", "W."), family = "Campbell", email = "campbell.1721@osu.edu", role = c("aut", "cre")))
+Author: Benjamin W. Campbell [aut, cre]
+Maintainer: Benjamin W. Campbell <campbell.1721@osu.edu>
+URL: http://github.com/benjamin-w-campbell/coxtools
+Description: This package contains a suite of tools for the assessment of fit and performance for Cox Proportional Hazard Models.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+Depends: 
+  R (>= 3.4.0),
+  survival (>=2.42-3),
+  ggplot2 (>=2.2.1)
+Imports:
+  riskRegression (>=2018.04.21)
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
