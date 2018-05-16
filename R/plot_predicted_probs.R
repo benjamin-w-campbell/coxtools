@@ -65,9 +65,6 @@ plot_predicted_probs <- function(coxph_fit = NULL, var = NULL, time = NULL, seed
     Y_Max = basehaz$survival.upperBand
   )
 
-  library(ggplot2)
-
-
   p = ggplot(data = plot_df, aes(x = X, y = Y)) +
     geom_line(col = "firebrick4", size = 1.5) +
     geom_ribbon(aes(ymin=Y_Min, ymax=Y_Max), col = "firebrick4", fill = "firebrick4", alpha = 0.25)  +
