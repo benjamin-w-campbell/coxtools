@@ -1,7 +1,7 @@
 Package: coxtools
 Date: 2018-4-18
 Type: Package
-Title: Suite of Tools for Cox Proportional Hazards Models.
+Title: Suite of Tools for Cox Proportional Hazards Models
 Version: 0.1.0
 Authors@R: c(person(given = c("Benjamin", "W."), family = "Campbell", email = "campbell.1721@osu.edu", role = c("aut", "cre")))
 Author: Benjamin W. Campbell [aut, cre]
