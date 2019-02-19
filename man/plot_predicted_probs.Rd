@@ -29,9 +29,25 @@ A ggplot2 object summarizing the corresponding predicted probability.
 }
 \description{
 This function assists the user in interpreting effect sizes estimated using the coxph function.  It provides the predicted probability of not observing an event, the survival function, for a fixed time period over the full range of variable's values.
+This routine is a plot-based wrapper for the "riskRegression" "predictCox" function, and as such, should be treated accordingly.
 }
 \examples{
 library(survival)
+data("heart")
+# Coerce from factor
+heart$transplant <- as.numeric(heart$transplant)
+# Rescale age
+heart$age <- heart$age+48
+fit <- coxph(Surv(start, stop, event) ~
+               age + transplant +surgery,
+             data = heart,
+             x = TRUE)
+
+plot_predicted_probs(fit,
+                     var = "age",
+                     time = mean(heart$stop-heart$start),
+                     seed = 123,
+                     xaxis_label = "Age-48 Years")
 
 }
 \keyword{interpretation}
