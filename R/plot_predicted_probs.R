@@ -27,7 +27,7 @@
 #'                      var = "age",
 #'                      time = mean(heart$stop-heart$start),
 #'                      seed = 123,
-#'                      xaxis_label = "Age-48 Years")
+#'                      xaxis_label = "Age")
 #'
 #' @export
 
@@ -83,7 +83,7 @@ plot_predicted_probs <- function(coxph_fit = NULL, var = NULL, time = NULL, seed
 
   p = ggplot(data = plot_df, aes(x = X, y = Y)) +
     geom_line(col = "firebrick4", size = 1.5) +
-    geom_ribbon(aes(ymin=Y_Min, ymax=Y_Max), col = "firebrick4", fill = "firebrick4", alpha = 0.25)  +
+    geom_ribbon(aes_string(ymin="Y_Min", ymax="Y_Max"), col = "firebrick4", fill = "firebrick4", alpha = 0.25)  +
     theme_bw()  +
     theme(legend.position = c(0.2, 0.8),
           axis.text=element_text(size=12),

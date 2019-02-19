@@ -34,10 +34,11 @@ plot_dfbetas <- function(coxph_fit = NULL, var_names = NULL){
                           variable.name = "Covariate",
                           variable.factor = FALSE,
                           value.name = "dfbeta")
-  p <- ggplot(dfb, aes(Observation, dfbeta)) +
+  dfb$pointsize <- abs(dfb$dfbeta/10000)
+  p <- ggplot(dfb, aes_string("Observation", "dfbeta")) +
     # geom_point(size = 0.1) +
     # geom_point(aes(size = abs(dfbeta)/10000, color = dfbeta), alpha = 0.5) +
-    geom_point(aes(size = abs(dfbeta)/10000), alpha = 0.5) +
+    geom_point(aes_string(size = "pointsize"), alpha = 0.5) +
     # geom_point(aes(color = dfbeta), size =0.1, alpha = 0.5) +
     facet_wrap(~ Covariate, scales = "free") +
     theme_bw() +
