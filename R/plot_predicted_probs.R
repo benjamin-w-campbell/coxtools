@@ -13,7 +13,6 @@
 #' @return A ggplot2 object summarizing the corresponding predicted probability.
 #' @examples
 #' library(survival)
-#' library(survival)
 #' data("heart")
 #' # Coerce from factor
 #' heart$transplant <- as.numeric(heart$transplant)
