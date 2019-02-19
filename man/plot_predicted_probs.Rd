@@ -47,7 +47,7 @@ plot_predicted_probs(fit,
                      var = "age",
                      time = mean(heart$stop-heart$start),
                      seed = 123,
-                     xaxis_label = "Age-48 Years")
+                     xaxis_label = "Age")
 
 }
 \keyword{interpretation}

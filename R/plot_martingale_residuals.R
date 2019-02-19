@@ -37,7 +37,7 @@ plot_martingale_residuals <- function(coxph_fit = NULL, time1 = NULL, time2 = NU
                          sentences =event,
                          dev_res = residuals(coxph_fit, type = 'deviance'))
 
-  p1 <- ggplot(dev_data, aes(obs, dev_res)) + geom_point(aes(color = dev_res), alpha = 0.2) +
+  p1 <- ggplot(dev_data, aes_string("obs", "dev_res")) + geom_point(aes_string(color = "dev_res"), alpha = 0.2) +
     geom_smooth(se = FALSE, size = 0.5) +
     geom_hline(yintercept = 0) +
     xlab('Observation Number') + ylab('Deviance Residuals') +
@@ -46,7 +46,7 @@ plot_martingale_residuals <- function(coxph_fit = NULL, time1 = NULL, time2 = NU
           axis.text=element_text(size=10),
           axis.title=element_text(size=12,face="bold")) +
     guides(color=FALSE)
-  p2 <- ggplot(dev_data, aes(Time, dev_res)) + geom_point(aes(color = dev_res), alpha = 0.2) +
+  p2 <- ggplot(dev_data, aes_string("Time", "dev_res")) + geom_point(aes_string(color = "dev_res"), alpha = 0.2) +
     geom_smooth(se = FALSE, size = 0.5) +
     geom_hline(yintercept = 0) +
     xlab('Time Until Next Event') + ylab('Deviance Residuals') +
