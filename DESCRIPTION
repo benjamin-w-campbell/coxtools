@@ -11,13 +11,15 @@ Description: This package contains a suite of tools for the assessment of fit an
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Depends: 
   R (>= 3.4.0),
   survival (>=2.42-3),
   ggplot2 (>=2.2.1)
 Imports:
-  riskRegression (>=2018.04.21)
+  riskRegression (>=2018.04.21),
+  Rmisc (>= 1.5),
+  data.table(>= 1.11.8)
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
