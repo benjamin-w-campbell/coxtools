@@ -13,6 +13,22 @@
 #' @return A ggplot2 object summarizing the corresponding predicted probability.
 #' @examples
 #' library(survival)
+#' library(survival)
+#' data("heart")
+#' # Coerce from factor
+#' heart$transplant <- as.numeric(heart$transplant)
+#' # Rescale age
+#' heart$age <- heart$age+48
+#' fit <- coxph(Surv(start, stop, event) ~
+#'                age + transplant +surgery,
+#'              data = heart,
+#'              x = TRUE)
+#'
+#' plot_predicted_probs(fit,
+#'                      var = "age",
+#'                      time = mean(heart$stop-heart$start),
+#'                      seed = 123,
+#'                      xaxis_label = "Age-48 Years")
 #'
 #' @export
 
