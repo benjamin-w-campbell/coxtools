@@ -1,6 +1,7 @@
 #' Function to plot the predicted probability of an event using a coxph object.
 #'
 #' This function assists the user in interpreting effect sizes estimated using the coxph function.  It provides the predicted probability of not observing an event, the survival function, for a fixed time period over the full range of variable's values.
+#' This routine is a plot-based wrapper for the "riskRegression" "predictCox" function, and as such, should be treated accordingly.
 #' @param coxph_fit The output from a fitted "coxph" call.
 #' @param var A character string specifying the variable from "coxph_fit" that predicted probabilities should be plotted for.
 #' @param time This is the fixed time point that should be used to calcualte the predicted probabilities.
