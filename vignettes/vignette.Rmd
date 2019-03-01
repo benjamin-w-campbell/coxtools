@@ -10,9 +10,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 # Vignette Info and Introduction
-This vignette uses the Stanford Heart Transplant made available through [@survival-book] but originally taken from [@crowley1977covariance].  It is relatively small as it is really only designed to walk through a few essential functions.  We will fit a relatively simplistic Cox PH model on the [@crowley1977covariance] data and then use the functions available in this `coxtools` package.  
+This vignette uses the Stanford Heart Transplant made available through @survival-book but originally taken from @crowley1977covariance.  It is relatively small as it is really only designed to walk through a few essential functions.  We will fit a relatively simplistic Cox PH model on the @crowley1977covariance data and then use the functions available in this `coxtools` package.  
 
-# Fitting Model
+## Fitting Model
 In this section, we fit a relatively simplistic Cox PH Model that attempts to predict the time until an event between some entry time and some exit time.  Only a few covariates are included, including the age of the patient, prior bypass surgery, and if they recieved the transplant.  The code for this is as follows:
 ```{r, echo=TRUE, eval=FALSE}
 # Load survival package
@@ -31,7 +31,7 @@ coxph_fit <- coxph(Surv(start, stop, event) ~
 ```
 
 # `coxtools` Functions
-The `coxtools` package comes with a series of functions that are useful in assessing model fit.  
+The `coxtools` package comes with a series of functions that are useful in assessing model fit.  The first examines the predicted probability of an event at some time *t* as a function of some essential covariate of interest.  For this function, all other control variables are held at their median or mean, for binary or continuous variables respectively.  The second function plots the DFBetas for the fitted model, showing how certain observations may be highly influential or poorly predicted.  The third function plots the Cox-Snell residuals which are a useful metric for understanding broader model fit.  Finally, the fourth function presents the Martingale residuals, which shows the relative contribution of particular variables.  This vignette is not designed to be a primer on goodness of fit measures for Cox PH Models, but instead, assist the user in applying these goodness of fit measures.  For a primer, I recommend @box2004event.  
 
 
 # References
