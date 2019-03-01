@@ -21,7 +21,7 @@
 #'
 #'
 #' coxph_fit <- coxph(Surv(start, stop, event) ~
-#'                      age + transplant + strata(surgery),
+#'                      age + surgery + strata(transplant),
 #'                   data = heart,
 #'                   x = TRUE)
 #'
