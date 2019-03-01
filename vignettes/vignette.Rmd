@@ -1,0 +1,38 @@
+---
+title: "Using `coxtools`: An Introduction"
+author: "Benjamin W. Campbell"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: coxtools.bib
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+# Vignette Info and Introduction
+This vignette uses the Stanford Heart Transplant made available through [@survival-book] but originally taken from [@crowley1977covariance].  It is relatively small as it is really only designed to walk through a few essential functions.  We will fit a relatively simplistic Cox PH model on the [@crowley1977covariance] data and then use the functions available in this `coxtools` package.  
+
+# Fitting Model
+In this section, we fit a relatively simplistic Cox PH Model that attempts to predict the time until an event between some entry time and some exit time.  Only a few covariates are included, including the age of the patient, prior bypass surgery, and if they recieved the transplant.  The code for this is as follows:
+```{r, echo=TRUE, eval=FALSE}
+# Load survival package
+library(survival)
+# Import data
+data("heart")
+# Coerce from factor
+heart$transplant <- as.numeric(heart$transplant)
+# Rescale age
+heart$age <- heart$age+48
+# Fit model
+coxph_fit <- coxph(Surv(start, stop, event) ~
+                     age + transplant +surgery,
+                   data = heart,
+                   x = TRUE)
+```
+
+# `coxtools` Functions
+The `coxtools` package comes with a series of functions that are useful in assessing model fit.  
+
+
+# References
+
