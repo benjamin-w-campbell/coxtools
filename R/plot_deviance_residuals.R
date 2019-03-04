@@ -12,16 +12,16 @@
 #' heart$transplant <- as.numeric(heart$transplant)
 #' # Rescale age
 #' heart$age <- heart$age+48
-#' fit <- coxph(Surv(start, stop, event) ~
+#' coxph_fit <- coxph(Surv(start, stop, event) ~
 #'               age + transplant +surgery,
 #'              data = heart,
 #'              x = TRUE)
 #'
-#' plot_martingale_residuals(coxph_fit = fit)
+#' plot_deviance_residuals(coxph_fit = coxph_fit)
 #'
 #' @export
 
-plot_martingale_residuals <- function(coxph_fit = NULL){
+plot_deviance_residuals <- function(coxph_fit = NULL){
 
   time1 <- coxph_fit$y[,1]
   time2 <- coxph_fit$y[,2]
