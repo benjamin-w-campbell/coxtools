@@ -7,7 +7,7 @@ Authors@R: c(person(given = c("Benjamin", "W."), family = "Campbell", email = "c
 Author: Benjamin W. Campbell [aut, cre]
 Maintainer: Benjamin W. Campbell <campbell.1721@osu.edu>
 URL: http://github.com/benjamin-w-campbell/coxtools
-Description: This package contains a suite of tools for the assessment of fit and performance for Cox Proportional Hazard Models.
+Description: Suite of tools for the assessment of fit and performance for Cox Proportional Hazard Models.  Tools to examine the Cox-Snell, Martingale, and Deviance residuals, DFBETAs, and substantive effect sizes for Cox Proportional Hazard Models.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
