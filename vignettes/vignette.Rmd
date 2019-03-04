@@ -14,7 +14,7 @@ This vignette uses the Stanford Heart Transplant made available through @surviva
 
 ## Fitting Model
 In this section, we fit a relatively simplistic Cox PH Model that attempts to predict the time until an event between some entry time and some exit time.  Only a few covariates are included, including the age of the patient, prior bypass surgery, and if they recieved the transplant.  The code for this is as follows:
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=TRUE, eval=TRUE, warning = FALSE, message = FALSE}
 # Load survival package
 library(survival)
 # Import data
@@ -50,7 +50,7 @@ To assist in assessing model fit and to aid in interpretation, `coxtools` has a 
 
 * `title`: This is the plot title as it should appear.
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=TRUE, eval=TRUE, warning = FALSE, message = FALSE}
 
 library(coxtools)
 plot_predicted_probs(coxph_fit = coxph_fit,
@@ -63,15 +63,14 @@ plot_predicted_probs(coxph_fit = coxph_fit,
 
 ## DFBetas
 Analysts interested in seeing the influence of particular observations can also examine DFBetas.  DFBetas help the analyst understand how the removal of particular observations influence particular covariate effects.    Ideally, most observations would be homogenous and distributed around zero.  The syntax for plotting DFBetas using `plot_dfbetas()` roughly follows the prior syntax.  It does, however, include the optional `var_names` argument which can help in making the plot easier to interpret by plotting the user-given name above each covariate's associated plot.
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=TRUE, eval=TRUE, warning=FALSE, message = FALSE}
 plot_dfbetas(coxph_fit = coxph_fit, var_names = c("Age", "Transplant", "Surgery"))
 ```
-
 
 ## Cox-Snell Residuals
 `coxtools` has three functions for visualizing the residuals for a `coxph` object: `plot_coxSnell_residuals()`, `plot_deviance_residuals()`, and `plot_marginale_residuals()`.  The `plot_coxSnell_residuals()` function takes some `coxph` fit object and plots the stratified Cox-Snell residuals with a comparison unit-exponential line.  Cox-Snell residuals show the difference between an observed gap time and the predicted or fitted gap time [@box2004event].  A well-fitting model will hve residuals that hug the unit exponential line.  Using the `coxph_fit` object fit in the prior chunk of code, we can easily plot the Cox-Snell residuals using the `plot_coxSnell_residuals()` function.  This function will, by default, account for stratifying variables.
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=TRUE, eval=TRUE, warning=FALSE, message = FALSE}
 plot_coxSnell_residuals(coxph_fit = coxph_fit)
 
 coxph_fit_strat <- coxph(Surv(start, stop, event) ~
@@ -85,15 +84,17 @@ plot_coxSnell_residuals(coxph_fit = coxph_fit_strat)
 ## Deviance Residuals
 The `coxtools` package also has a function for plotting deviance residuals, `plot_deviance_residuals()`, which takes some `coxph` fit and plots the deviance residuals.  The two plots returned are designed to help the analyst understand which observations are poorly predicted and how model performance fairs with respect to timing of events.  These plots are useful for allowing analysts to understand how well particular observations are predicted.  The second plot is particularly of interest when it is unclear whether all observations will eventually experience an event after some period of time.  
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=TRUE, eval=TRUE, warning=FALSE, message = FALSE}
 plot_deviance_residuals(coxph_fit = coxph_fit)
 ```
 
 ## Martingale Residuals
 The final `coxtools` function, `plot_martingale_residuals()`, takes some `coxph` fit and plots the deviance residuals.  This returns a list of plots that contains two plots for each covariate.  These plots show the Martingale residuals for each covariate for the fit Cox model and a version of the mode which drops that particular covariate.  A well fitting model will residuals that are fairly linear and distributed around zero.  The syntax for this function is relatively simple:
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=TRUE, eval=TRUE,warning=FALSE, message = FALSE}
 plot_martingale_residuals(coxph_fit)
 ```
+
+
 
 # References
 
