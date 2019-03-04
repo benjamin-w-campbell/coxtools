@@ -1,11 +1,8 @@
 #' Function to plot the deviance residuals of a fitted coxph object.
 #'
 #' This function assists the user in assessing model performance according to deviance residuals.
-#' # The two plots produced are designed to help the analyst understand which observations are poorly preducted and how model performance fairs with respect to timing of events.
+#' The two plots produced are designed to help the analyst understand which observations are poorly predicted and how model performance fairs with respect to timing of events.
 #' @param coxph_fit The output from a fitted "coxph" call.
-#' @param time1 This is the start time column vector used in constructing the "Surv" object.
-#' @param time2 This is the end time column vector used in constructing the "Surv" object.
-#' @param event This is the event column vector used in constructing the "Surv" object.
 #' @keywords summary deviance residuals performance fit plot
 #' @return A ggplot2 object presenting the deviance residuals for the model.
 #' @examples
@@ -20,15 +17,15 @@
 #'              data = heart,
 #'              x = TRUE)
 #'
-#' plot_martingale_residuals(coxph_fit = fit,
-#'                           time1 = heart$start,
-#'                           time2 = heart$stop,
-#'                           event = heart$event)
+#' plot_martingale_residuals(coxph_fit = fit)
 #'
 #' @export
 
-plot_martingale_residuals <- function(coxph_fit = NULL, time1 = NULL, time2 = NULL, event = NULL){
+plot_martingale_residuals <- function(coxph_fit = NULL){
 
+  time1 <- coxph_fit$y[,1]
+  time2 <- coxph_fit$y[,2]
+  event <- coxph_fit$y[,3]
 
   dev_data <- data.frame(obs = seq_len(length(time1)),
                          time1 = time1,
