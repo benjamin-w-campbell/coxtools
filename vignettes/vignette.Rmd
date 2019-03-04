@@ -10,7 +10,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 # Vignette Info and Introduction
-This vignette uses the Stanford Heart Transplant made available through @survival-book but originally taken from @crowley1977covariance.  It is relatively small as it is really only designed to walk through a few essential functions.  We will fit a relatively simplistic Cox PH model on the @crowley1977covariance data and then use the functions available in this `coxtools` package.  
+This relatively short vignette walks through the core functions of the `coxtools` package.  This package is designed to assist users in interpreting and assessing the fit of their Cox Proportional Hazards (Cox PH) models.  The vignette uses the Stanford Heart Transplant data made available through @survival-book but originally taken from @crowley1977covariance.  We fit a relatively simplistic Cox PH model on the @crowley1977covariance data and use the functions available in this `coxtools` package to assess its fit.  
 
 ## Fitting Model
 In this section, we fit a relatively simplistic Cox PH Model that attempts to predict the time until an event between some entry time and some exit time.  Only a few covariates are included, including the age of the patient, prior bypass surgery, and if they recieved the transplant.  The code for this is as follows:
@@ -31,12 +31,12 @@ coxph_fit <- coxph(Surv(start, stop, event) ~
 ```
 
 # `coxtools` Functions
-The `coxtools` package comes with a series of functions that are useful in assessing model fit.  The first examines the predicted probability of an event at some time *t* as a function of some essential covariate of interest.  For this function, all other control variables are held at their median or mean, for binary or continuous variables respectively.  The second function plots the DFBetas for the fitted model, showing how certain observations may be highly influential or poorly predicted.  The third function plots the Cox-Snell residuals which are a useful metric for understanding broader model fit. The fourth function presents the deviance residuals, which shows how well the model fairs in predicting certain observations.  The final function produces a list of plots showing the Martingale residuals for models with and without a particular covariate, allowing the analyst to better understand certain covariates and their effects.  This vignette is not designed to be a primer on goodness of fit measures for Cox PH Models, but instead, assist the user in applying these goodness of fit measures.  For a primer, I recommend @box2004event.  
+The `coxtools` package comes with a series of functions that are useful in assessing model performance.  The first examines the predicted probability of an event at some time *t* as a function of some essential covariate of interest.  For this function, all other control variables are held at their median or mean (for binary or continuous variables respectively).  The second function plots the DFBetas for the fitted model, showing how certain observations may be highly influential or poorly predicted.  The third function plots the Cox-Snell residuals which are a useful metric for understanding broader model fit. The fourth function presents the deviance residuals, which shows how well the model fairs in predicting certain observations.  The final function produces a list of plots showing the Martingale residuals for models with and without a particular covariate, allowing the analyst to better understand certain covariates and their effects.  This vignette is not designed to be a primer on goodness of fit measures for Cox PH Models, but instead, assist the user in applying these goodness of fit measures.  For a primer, I recommend @box2004event.  
 
 ## Predicted Probabilities
-To assist in assessing model fit and to aid in interpretation, `coxtools` has a function to examine the effects of particular covariates on observing an event at some fixed point in time.  This function `plot_predicted_probs()` is a plot-based wrapper for the `predictCox()` function in `riskRegression`.  This funciton has the greatest amount of customizability included given that it is more likely to be included in a manuscript than the other plots preduced.  This function takes a few arguments:
+To assist in assessing model fit and to aid in interpretation, `coxtools` has a function to examine the effect of particular covariates on observing an event at some fixed point in time.  This function `plot_predicted_probs()` is a plot-based wrapper for the `predictCox()` function in `riskRegression`.  This function has the greatest amount of customizability as it is more likely to be included in a manuscript than the other plots included.  This function takes a few arguments:
 
-* `coxph_fit`: The output from a fitted "coxph" call.
+* `coxph_fit`: The output from a fitted `coxph` call.
 
 * `var`: A character string specifying the variable from `coxph_fit` that predicted probabilities should be plotted for.
 
@@ -46,12 +46,11 @@ To assist in assessing model fit and to aid in interpretation, `coxtools` has a 
 
 * `yaxis_label`:  This is the label as it appears for the y-axis.  This is the probability of not observing an event.
 
-* `xaxis_label`: This is the label ax it appears for the x-axis.  This is the range of variable values for the "var" variable.
+* `xaxis_label`: This is the label ax it appears for the x-axis.  This is the range of variable values for the `var` variable.
 
 * `title`: This is the plot title as it should appear.
 
 ```{r, echo=TRUE, eval=TRUE, warning = FALSE, message = FALSE}
-
 library(coxtools)
 plot_predicted_probs(coxph_fit = coxph_fit,
                      var = "age",
@@ -61,14 +60,19 @@ plot_predicted_probs(coxph_fit = coxph_fit,
                      xaxis_label = "Age")
 ```
 
+The previous plot shows that as an individual ages, their probability of survival decreases at the mean gap time.  In other words, when holding time fixed at the average time between the start and end of observation, young individuals are less likely to experience an event than elderly individuals.  This certainly makes sense given the effects of aging on the cardiovascular system.  
+
 ## DFBetas
-Analysts interested in seeing the influence of particular observations can also examine DFBetas.  DFBetas help the analyst understand how the removal of particular observations influence particular covariate effects.    Ideally, most observations would be homogenous and distributed around zero.  The syntax for plotting DFBetas using `plot_dfbetas()` roughly follows the prior syntax.  It does, however, include the optional `var_names` argument which can help in making the plot easier to interpret by plotting the user-given name above each covariate's associated plot.
+Analysts interested in seeing the influence of particular observations can also examine DFBetas.  DFBetas help the analyst understand how the removal of particular observations influence estimated covariate effects.    Ideally, observations would be homogenous and the DFBETAs would be distributed around zero.  The syntax for plotting DFBetas using `plot_dfbetas()` includes the optional `var_names` argument which can help in interpreting the plot by plotting the user-given name above each covariate's associated plot.
 ```{r, echo=TRUE, eval=TRUE, warning=FALSE, message = FALSE}
 plot_dfbetas(coxph_fit = coxph_fit, var_names = c("Age", "Transplant", "Surgery"))
 ```
 
+The previous plot indicates that there is a serious amount of heterogeneity between observations.  For each of the covariates included, many observations appear to exercise a large amount of leverage over covariate effects.  To improve model fit and reduce the influence of these high-leverage observations, we may consider including frailty terms which are capable of accounting for unit or group-level variation.  
+
+
 ## Cox-Snell Residuals
-`coxtools` has three functions for visualizing the residuals for a `coxph` object: `plot_coxSnell_residuals()`, `plot_deviance_residuals()`, and `plot_marginale_residuals()`.  The `plot_coxSnell_residuals()` function takes some `coxph` fit object and plots the stratified Cox-Snell residuals with a comparison unit-exponential line.  Cox-Snell residuals show the difference between an observed gap time and the predicted or fitted gap time [@box2004event].  A well-fitting model will hve residuals that hug the unit exponential line.  Using the `coxph_fit` object fit in the prior chunk of code, we can easily plot the Cox-Snell residuals using the `plot_coxSnell_residuals()` function.  This function will, by default, account for stratifying variables.
+`coxtools` has three functions for visualizing the residuals for a `coxph` object: `plot_coxSnell_residuals()`, `plot_deviance_residuals()`, and `plot_marginale_residuals()`.  The `plot_coxSnell_residuals()` function takes some `coxph` fit object and plots the stratified Cox-Snell residuals with a comparison unit-exponential line.  Cox-Snell residuals show the difference between an observed gap time and the predicted or fitted gap time.  A well-fitting model will have residuals that hug the unit exponential line.  Using the `coxph_fit` object fit in the prior chunk of code, we can easily plot the Cox-Snell residuals using the `plot_coxSnell_residuals()` function.  This function will, by default, account for stratifying variables.
 
 ```{r, echo=TRUE, eval=TRUE, warning=FALSE, message = FALSE}
 plot_coxSnell_residuals(coxph_fit = coxph_fit)
@@ -81,6 +85,8 @@ coxph_fit_strat <- coxph(Surv(start, stop, event) ~
 plot_coxSnell_residuals(coxph_fit = coxph_fit_strat)
 ```
 
+The previous plots show the Cox-Snell residuals plotted against the estimated cumulative hazard function.  For both models, with and without stratification, the lines appear to hug the unit exponential line.  This indicates that both models estimated fit relatively well.
+
 ## Deviance Residuals
 The `coxtools` package also has a function for plotting deviance residuals, `plot_deviance_residuals()`, which takes some `coxph` fit and plots the deviance residuals.  The two plots returned are designed to help the analyst understand which observations are poorly predicted and how model performance fairs with respect to timing of events.  These plots are useful for allowing analysts to understand how well particular observations are predicted.  The second plot is particularly of interest when it is unclear whether all observations will eventually experience an event after some period of time.  
 
@@ -88,13 +94,15 @@ The `coxtools` package also has a function for plotting deviance residuals, `plo
 plot_deviance_residuals(coxph_fit = coxph_fit)
 ```
 
+Unfortunately, the deviance residuals indicate that the model may not do particularly well in predicting the "healthy" individuals who do not experience an event.  This is shown in the second plot which shows the deviance residuals across the time until an event.  
+
 ## Martingale Residuals
-The final `coxtools` function, `plot_martingale_residuals()`, takes some `coxph` fit and plots the deviance residuals.  This returns a list of plots that contains two plots for each covariate.  These plots show the Martingale residuals for each covariate for the fit Cox model and a version of the mode which drops that particular covariate.  A well fitting model will residuals that are fairly linear and distributed around zero.  The syntax for this function is relatively simple:
+The final `coxtools` function, `plot_martingale_residuals()`, takes some `coxph` fit and plots the deviance residuals.  This returns a list of plots that contains two plots for each covariate.  These plots show the Martingale residuals for each covariate for the fit Cox model and a version of the model which drops that particular covariate.  A well fitting model will have residuals that are fairly linear and distributed around zero.  The syntax for this function is relatively simple:
 ```{r, echo=TRUE, eval=TRUE,warning=FALSE, message = FALSE}
 plot_martingale_residuals(coxph_fit)
 ```
 
-
+The previous plots show that for each covariate included, a linear functional form may be appropriate.  In other words, the model as it is currently estimated appears to fit reasonably well.
 
 # References
 
