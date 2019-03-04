@@ -31,7 +31,7 @@ coxph_fit <- coxph(Surv(start, stop, event) ~
 ```
 
 # `coxtools` Functions
-The `coxtools` package comes with a series of functions that are useful in assessing model fit.  The first examines the predicted probability of an event at some time *t* as a function of some essential covariate of interest.  For this function, all other control variables are held at their median or mean, for binary or continuous variables respectively.  The second function plots the DFBetas for the fitted model, showing how certain observations may be highly influential or poorly predicted.  The third function plots the Cox-Snell residuals which are a useful metric for understanding broader model fit.  Finally, the fourth function presents the deviance residuals, which shows how well the model fairs in predicting certain observations.  This vignette is not designed to be a primer on goodness of fit measures for Cox PH Models, but instead, assist the user in applying these goodness of fit measures.  For a primer, I recommend @box2004event.  
+The `coxtools` package comes with a series of functions that are useful in assessing model fit.  The first examines the predicted probability of an event at some time *t* as a function of some essential covariate of interest.  For this function, all other control variables are held at their median or mean, for binary or continuous variables respectively.  The second function plots the DFBetas for the fitted model, showing how certain observations may be highly influential or poorly predicted.  The third function plots the Cox-Snell residuals which are a useful metric for understanding broader model fit. The fourth function presents the deviance residuals, which shows how well the model fairs in predicting certain observations.  The final function produces a list of plots showing the Martingale residuals for models with and without a particular covariate, allowing the analyst to better understand certain covariates and their effects.  This vignette is not designed to be a primer on goodness of fit measures for Cox PH Models, but instead, assist the user in applying these goodness of fit measures.  For a primer, I recommend @box2004event.  
 
 ## Predicted Probabilities
 To assist in assessing model fit and to aid in interpretation, `coxtools` has a function to examine the effects of particular covariates on observing an event at some fixed point in time.  This function `plot_predicted_probs()` is a plot-based wrapper for the `predictCox()` function in `riskRegression`.  This funciton has the greatest amount of customizability included given that it is more likely to be included in a manuscript than the other plots preduced.  This function takes a few arguments:
@@ -61,14 +61,14 @@ plot_predicted_probs(coxph_fit,
 ```
 
 ## DFBetas
-Analysts interested in seeing the influence of particular observations can also examine DFBetas.  DFBetas help the analyst understand how the removal of particular observations influence particular covariate effects.  The syntax for plotting DFBetas using `plot_dfbetas()` roughly follows the prior syntax.  It does, however, include the optional `var_names` argument which can help in making the plot easier to interpret by plotting the user-given name above each covariate's associated plot.
+Analysts interested in seeing the influence of particular observations can also examine DFBetas.  DFBetas help the analyst understand how the removal of particular observations influence particular covariate effects.    Ideally, most observations would be homogenous and distributed around zero.  The syntax for plotting DFBetas using `plot_dfbetas()` roughly follows the prior syntax.  It does, however, include the optional `var_names` argument which can help in making the plot easier to interpret by plotting the user-given name above each covariate's associated plot.
 ```{r, echo=TRUE, eval=TRUE}
 plot_dfbetas(coxph_fit = coxph_fit, var_names = c("Age", "Transplant", "Surgery"))
 ```
 
 
 ## Cox-Snell Residuals
-`coxtools` has two functions for visualizing the residuals for a `coxph` object: `plot_coxSnell_residuals()` and `plot_deviance_residuals()`.  The `plot_coxSnell_residuals()` function takes some `coxph` fit object and plots the stratified Cox-Snell residuals with a comparison unit-exponential line.  Cox-Snell residuals show the difference between an observed gap time and the predicted or fitted gap time [@box2004event].  Using the `coxph_fit` object fit in the prior chunk of code, we can easily plot the Cox-Snell residuals using the `plot_coxSnell_residuals()` function.  This function will, by default, account for stratifying variables.
+`coxtools` has three functions for visualizing the residuals for a `coxph` object: `plot_coxSnell_residuals()`, `plot_deviance_residuals()`, and `plot_marginale_residuals()`.  The `plot_coxSnell_residuals()` function takes some `coxph` fit object and plots the stratified Cox-Snell residuals with a comparison unit-exponential line.  Cox-Snell residuals show the difference between an observed gap time and the predicted or fitted gap time [@box2004event].  A well-fitting model will hve residuals that hug the unit exponential line.  Using the `coxph_fit` object fit in the prior chunk of code, we can easily plot the Cox-Snell residuals using the `plot_coxSnell_residuals()` function.  This function will, by default, account for stratifying variables.
 
 ```{r, echo=TRUE, eval=TRUE}
 plot_coxSnell_residuals(coxph_fit)
@@ -82,12 +82,17 @@ plot_coxSnell_residuals(coxph_fit_strat)
 ```
 
 ## Deviance Residuals
-The `coxtools` package also has a function for plotting deviance residuals, `plot_deviance_residuals()`, which takes some `coxph` fit and plots the deviance residuals.  The two plots returned are designed to help the analyst understand which observations are poorly predicted and how model performance fairs with respect to timing of events.  
+The `coxtools` package also has a function for plotting deviance residuals, `plot_deviance_residuals()`, which takes some `coxph` fit and plots the deviance residuals.  The two plots returned are designed to help the analyst understand which observations are poorly predicted and how model performance fairs with respect to timing of events.  These plots are useful for allowing analysts to understand how well particular observations are predicted.  The second plot is particularly of interest when it is unclear whether all observations will eventually experience an event after some period of time.  
 
 ```{r, echo=TRUE, eval = TRUE}
 plot_deviance_residuals(coxph_fit)
 ```
 
+## Martingale Residuals
+The final `coxtools` function, `plot_martingale_residuals()`, takes some `coxph` fit and plots the deviance residuals.  This returns a list of plots that contains two plots for each covariate.  These plots show the Martingale residuals for each covariate for the fit Cox model and a version of the mode which drops that particular covariate.  A well fitting model will residuals that are fairly linear and distributed around zero.  The syntax for this function is relatively simple:
+```{r, echo=TRUE, eval=TRUE}
+plot_martingale_residuals(coxph_fit)
+```
 
 # References
 
