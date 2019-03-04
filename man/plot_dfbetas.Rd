@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_dfbetas.R
 \name{plot_dfbetas}
 \alias{plot_dfbetas}
-\title{Function to plot the DFBetas of a fitted coxph object.}
+\title{Function to plot the DFBETAs of a fitted coxph object.}
 \usage{
 plot_dfbetas(coxph_fit = NULL, var_names = NULL)
 }
@@ -12,11 +12,11 @@ plot_dfbetas(coxph_fit = NULL, var_names = NULL)
 \item{var_names}{A custom vector of variable names that correspond to the variables in the model.  Should be ordered as the covariates enter the model on the RHS of the formula.}
 }
 \value{
-A ggplot2 object presenting the DFBetas for the model.
+A ggplot2 object presenting the DFBETAs for the model.
 }
 \description{
-This function assists the user in assessing model performance according to DEFBetas.
-The two plots produced are designed to help the analyst understand which observations are poorly preducted and how model performance fairs with respect to timing of events.
+This function assists the user in assessing model performance according to DFBETAs
+The two plots produced are designed to help the analyst understand which observations are poorly predicted and how model performance fairs with respect to timing of events.
 }
 \examples{
 library(survival)
@@ -32,7 +32,7 @@ fit <- coxph(Surv(start, stop, event) ~
 
 plot_dfbetas(coxph_fit = fit, var_names = c("Age", "Transplant", "Surgery"))
 }
-\keyword{DFBetas}
+\keyword{DFBETAs}
 \keyword{fit}
 \keyword{performance}
 \keyword{plot}

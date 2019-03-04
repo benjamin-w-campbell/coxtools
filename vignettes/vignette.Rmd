@@ -13,7 +13,7 @@ vignette: >
 This relatively short vignette walks through the core functions of the `coxtools` package.  This package is designed to assist users in interpreting and assessing the fit of their Cox Proportional Hazards (Cox PH) models.  The vignette uses the Stanford Heart Transplant data made available through @survival-book but originally taken from @crowley1977covariance.  We fit a relatively simplistic Cox PH model on the @crowley1977covariance data and use the functions available in this `coxtools` package to assess its fit.  
 
 ## Fitting Model
-In this section, we fit a relatively simplistic Cox PH Model that attempts to predict the time until an event between some entry time and some exit time.  Only a few covariates are included, including the age of the patient, prior bypass surgery, and if they recieved the transplant.  The code for this is as follows:
+In this section, we fit a relatively simplistic Cox PH Model that attempts to predict the time until an event between some entry time and some exit time.  Only a few covariates are included, including the age of the patient, prior bypass surgery, and if they received the transplant.  The code for this is as follows:
 ```{r, echo=TRUE, eval=TRUE, warning = FALSE, message = FALSE}
 # Load survival package
 library(survival)
@@ -40,7 +40,7 @@ To assist in assessing model fit and to aid in interpretation, `coxtools` has a 
 
 * `var`: A character string specifying the variable from `coxph_fit` that predicted probabilities should be plotted for.
 
-* `time`: This is the fixed time point that should be used to calcualte the predicted probabilities.
+* `time`: This is the fixed time point that should be used to calculate the predicted probabilities.
 
 * `seed`: This is the seed that should be set for replication
 

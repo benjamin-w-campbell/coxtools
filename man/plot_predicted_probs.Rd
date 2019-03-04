@@ -14,7 +14,7 @@ plot_predicted_probs(coxph_fit = NULL, var = NULL, time = NULL,
 
 \item{var}{A character string specifying the variable from "coxph_fit" that predicted probabilities should be plotted for.}
 
-\item{time}{This is the fixed time point that should be used to calcualte the predicted probabilities.}
+\item{time}{This is the fixed time point that should be used to calculate the predicted probabilities.}
 
 \item{seed}{This is the seed that should be set for replication}
 

@@ -4,7 +4,7 @@
 #' This routine is a plot-based wrapper for the "riskRegression" "predictCox" function, and as such, should be treated accordingly.
 #' @param coxph_fit The output from a fitted "coxph" call.
 #' @param var A character string specifying the variable from "coxph_fit" that predicted probabilities should be plotted for.
-#' @param time This is the fixed time point that should be used to calcualte the predicted probabilities.
+#' @param time This is the fixed time point that should be used to calculate the predicted probabilities.
 #' @param seed This is the seed that should be set for replication
 #' @param yaxis_label This is the label as it appears for the y-axis.  This is the probability of not observing an event.
 #' @param xaxis_label This is the label ax it appears for the x-axis.  This is the range of variable values for the "var" variable.
