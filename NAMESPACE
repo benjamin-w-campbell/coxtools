@@ -1,7 +1,7 @@
 exportPattern("^[[:alpha:]]+")
 import("survival")
 import("ggplot2")
+import("data.table")
 importFrom(riskRegression, predictCox)
 importFrom(Rmisc, multiplot)
-importFrom(data.table, melt)
 importFrom("stats", "dfbeta", "median", "residuals", "sd")
