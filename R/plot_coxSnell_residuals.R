@@ -60,7 +60,7 @@ plot_coxSnell_residuals <- function(coxph_fit = NULL){
                         Strata = as.factor(strata_vec))
 
 
-    p <- ggplot(cd_df, aes(res, ch, color = Strata, group = Strata)) +
+    p <- ggplot(cd_df, aes_string("res", "ch", color = "Strata", group = "Strata")) +
       geom_line(size = 1) + geom_abline(intercept = 0, slope = 1, size = 1) +
       ylab('Est. Cumulative Hazard') +
       theme_bw() +
@@ -74,7 +74,7 @@ plot_coxSnell_residuals <- function(coxph_fit = NULL){
     cd_df <- data.frame(res = fitres$time,
                         ch = -log(fitres$surv))
 
-    p <- ggplot(cd_df, aes(res, ch)) +
+    p <- ggplot(cd_df, aes_string("res", "ch")) +
       geom_line(size = 1, colour = "red") + geom_abline(intercept = 0, slope = 1, size = 1) +
       ylab('Est. Cumulative Hazard') +
       theme_bw() +
