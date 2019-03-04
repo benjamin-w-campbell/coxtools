@@ -28,6 +28,7 @@
 #' plot_coxSnell_residuals(coxph_fit)
 #' @export
 
+
 plot_coxSnell_residuals <- function(coxph_fit = NULL){
   out <- coxph_fit$y[,3]
 

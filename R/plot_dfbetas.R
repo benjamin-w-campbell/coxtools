@@ -1,7 +1,7 @@
 #' Function to plot the DFBetas of a fitted coxph object.
 #'
 #' This function assists the user in assessing model performance according to DEFBetas.
-#' # The two plots produced are designed to help the analyst understand which observations are poorly preducted and how model performance fairs with respect to timing of events.
+#' The two plots produced are designed to help the analyst understand which observations are poorly preducted and how model performance fairs with respect to timing of events.
 #' @param coxph_fit The output from a fitted "coxph" call.
 #' @param var_names A custom vector of variable names that correspond to the variables in the model.  Should be ordered as the covariates enter the model on the RHS of the formula.
 #' @keywords summary DFBetas performance fit plot

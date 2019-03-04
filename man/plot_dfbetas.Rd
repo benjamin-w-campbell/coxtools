@@ -16,7 +16,7 @@ A ggplot2 object presenting the DFBetas for the model.
 }
 \description{
 This function assists the user in assessing model performance according to DEFBetas.
-# The two plots produced are designed to help the analyst understand which observations are poorly preducted and how model performance fairs with respect to timing of events.
+The two plots produced are designed to help the analyst understand which observations are poorly preducted and how model performance fairs with respect to timing of events.
 }
 \examples{
 library(survival)
