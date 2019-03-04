@@ -38,12 +38,12 @@ data("heart")
 heart$transplant <- as.numeric(heart$transplant)
 # Rescale age
 heart$age <- heart$age+48
-fit <- coxph(Surv(start, stop, event) ~
+coxph_fit <- coxph(Surv(start, stop, event) ~
                age + transplant +surgery,
              data = heart,
              x = TRUE)
 
-plot_predicted_probs(fit,
+plot_predicted_probs(coxph_fit,
                      var = "age",
                      time = mean(heart$stop-heart$start),
                      seed = 123,
