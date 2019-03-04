@@ -14,7 +14,7 @@ This vignette uses the Stanford Heart Transplant made available through @surviva
 
 ## Fitting Model
 In this section, we fit a relatively simplistic Cox PH Model that attempts to predict the time until an event between some entry time and some exit time.  Only a few covariates are included, including the age of the patient, prior bypass surgery, and if they recieved the transplant.  The code for this is as follows:
-```{r, echo=TRUE, eval=FALSE}
+```{r, echo=TRUE, eval=TRUE}
 # Load survival package
 library(survival)
 # Import data
@@ -33,6 +33,26 @@ coxph_fit <- coxph(Surv(start, stop, event) ~
 # `coxtools` Functions
 The `coxtools` package comes with a series of functions that are useful in assessing model fit.  The first examines the predicted probability of an event at some time *t* as a function of some essential covariate of interest.  For this function, all other control variables are held at their median or mean, for binary or continuous variables respectively.  The second function plots the DFBetas for the fitted model, showing how certain observations may be highly influential or poorly predicted.  The third function plots the Cox-Snell residuals which are a useful metric for understanding broader model fit.  Finally, the fourth function presents the Martingale residuals, which shows the relative contribution of particular variables.  This vignette is not designed to be a primer on goodness of fit measures for Cox PH Models, but instead, assist the user in applying these goodness of fit measures.  For a primer, I recommend @box2004event.  
 
+## Cox-Snell Residuals
+`coxtools` has two functions for visualizing the residuals for a `coxph` object: `plot_coxSnell_residuals()` and `plot_martingale_residuals()`.  The `plot_coxSnell_residuals()` function takes some `coxph` fit object and plots the stratified Cox-Snell residuals with a comparison unit-exponential line.  Cox-Snell residuals show the difference between an observed gap time and the predicted or fitted gap time [@box2004event].  Using the `coxph_fit` object fit in the prior chunk of code, we can easily plot the Cox-Snell residuals using the `plot_coxSnell_residuals()` function.  This function will, by default, account for stratifying variables.
+
+```{r, echo=TRUE, eval=TRUE}
+plot_coxSnell_residuals(coxph_fit)
+
+coxph_fit_strat <- coxph(Surv(start, stop, event) ~
+                           age + surgery + strata(transplant),
+                         data = heart,
+                         x = TRUE)
+
+plot_coxSnell_residuals(coxph_fit_strat)
+```
+
+## Martingale Residuals
+The `coxtools` package also has a function for plotting Martingale residuals, `plot_martingale_residuals()`, which takes some `coxph` fit and plots the Martingale residuals.  The two plots returned are designed to help the analyst understand which observations are poorly predicted and how model performance fairs with respect to timing of events.  
+
+```{r, echo=TRUE, eval = FALSE}
+plot_martingale_residuals(coxph_fit)
+```
 
 # References
 
