@@ -1,4 +1,5 @@
 ^Meta$
 ^doc$
+^cran-comments\.md$
 ^.*\.Rproj$
 ^\.Rproj\.user$
