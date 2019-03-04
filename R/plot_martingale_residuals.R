@@ -54,8 +54,8 @@ plot_martingale_residuals <- function(coxph_fit = NULL){
 
   martin_plot_cf <- lapply(seq_len(nrow(levs)), function(i) {
     var_name <- levs$cov_name[i]
-    d <- martin_dt[cov_name == levs$cov_name[i] &
-                     res == levs$res[i]]
+    d <- martin_dt[martin_dt$cov_name == levs$cov_name[i] &
+                     martin_dt$res == levs$res[i]]
     p <- ggplot(d, aes_string("cov_value", "res_value")) +
       geom_point(alpha = 0.1) +
       theme_bw() +
