@@ -2,26 +2,19 @@
 % Please edit documentation in R/plot_martingale_residuals.R
 \name{plot_martingale_residuals}
 \alias{plot_martingale_residuals}
-\title{Function to plot the deviance residuals of a fitted coxph object.}
+\title{Function to plot the Martingale residuals of a fitted coxph object.}
 \usage{
-plot_martingale_residuals(coxph_fit = NULL, time1 = NULL,
-  time2 = NULL, event = NULL)
+plot_martingale_residuals(coxph_fit = NULL)
 }
 \arguments{
 \item{coxph_fit}{The output from a fitted "coxph" call.}
-
-\item{time1}{This is the start time column vector used in constructing the "Surv" object.}
-
-\item{time2}{This is the end time column vector used in constructing the "Surv" object.}
-
-\item{event}{This is the event column vector used in constructing the "Surv" object.}
 }
 \value{
-A ggplot2 object presenting the deviance residuals for the model.
+A ggplot2 object presenting the martingale residuals for the model.
 }
 \description{
-This function assists the user in assessing model performance according to deviance residuals.
-# The two plots produced are designed to help the analyst understand which observations are poorly preducted and how model performance fairs with respect to timing of events.
+This function assists the user in assessing model performance according to Martingale residuals.
+A list of plots.  There will be two plots for each covariate.  One showing the Martingale residuals per mdoel with and without the covariate.
 }
 \examples{
 library(survival)
@@ -30,19 +23,18 @@ data("heart")
 heart$transplant <- as.numeric(heart$transplant)
 # Rescale age
 heart$age <- heart$age+48
-fit <- coxph(Surv(start, stop, event) ~
+coxph_fit <- coxph(Surv(start, stop, event) ~
               age + transplant +surgery,
              data = heart,
              x = TRUE)
 
-plot_martingale_residuals(coxph_fit = fit,
-                          time1 = heart$start,
-                          time2 = heart$stop,
-                          event = heart$event)
+plot_list <- plot_martingale_residuals(coxph_fit = coxph_fit)
+
+Rmisc::multiplot(plotlist = plot_list, cols = 3)
 
 }
-\keyword{deviance}
 \keyword{fit}
+\keyword{martingale}
 \keyword{performance}
 \keyword{plot}
 \keyword{residuals}
